@@ -5,7 +5,7 @@ const express = require('express');
 
 /*This creates an express router. It gives us an object name that we can use
 with express routing methods.*/
-const campsiteRouter = express.Router();
+const partnerRouter = express.Router();
 
 /*We are going to chain the 5 methods together into a single chain. All the methods
 share the same path, which is defined in server.js. We will chain all of them
@@ -14,7 +14,7 @@ After the call to the route method, we will take app.all, remove the all part, a
 chain them together.*/ 
 
 /*We define the path in server.js*/
-campsiteRouter.route('/')
+partnerRouter.route('/')
     .all((req, res, next) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
@@ -22,23 +22,23 @@ campsiteRouter.route('/')
     })
 
     .get((req, res) => {
-        res.end('Will send all the campsites to you');
+        res.end('Will send all the partners to you');
     })
 
     .post((req, res) => {
-        res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
+        res.end(`Will add the partner: ${req.body.name} with description: ${req.body.description}`);
     })
 
     .put((req, res) => {
         res.statusCode = 403;
-        res.end('PUT operation not supported on /campsites');
+        res.end('PUT operation not supported on /partners');
     })
 
     .delete((req, res) => {
-        res.end('Deleting all campsites');
+        res.end('Deleting all partners');
     });
 
-campsiteRouter.route('/:campsiteId')
+partnerRouter.route('/:partnerId')
     .all((req, res, next) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain')
@@ -46,24 +46,24 @@ campsiteRouter.route('/:campsiteId')
     })
 
     .get((req, res) => {
-        res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
+        res.end(`Will send details of the partner: ${req.params.partnerId} to you`);
     })
 
     .post((req, res) => {
         res.statusCode = 403;
-        res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+        res.end(`POST operation not supported on /partners/${req.params.partnerId}`);
     })
 
     .put((req, res) => {
-        res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
-        res.end(`Will update the campsite: ${req.body.name}
+        res.write(`Updating the partner: ${req.params.partnerId}\n`);
+        res.end(`Will update the partner: ${req.body.name}
         with description: ${req.body.description}`);        
     })
 
     .delete((req, res) => {
-        res.end(`Deleting: ${req.params.campsiteId}`);
+        res.end(`Deleting: ${req.params.partnerId}`);
     });
 
 
 
-module.exports = campsiteRouter;
+module.exports = partnerRouter;

@@ -1,6 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const campsiteRouter = require('./routes/campsiteRouter');
+const promotionRouter= require('./routes/promotionRouter');
+const partnerRouter= require('./routes/partnerRouter')
+
 
 const hostname = 'localhost';
 const port = 3000;
@@ -21,6 +24,9 @@ app.use(express.json());
 /*We specify the path here which is why we dont need to use the path in
 campsiteRouter.js*/
 app.use('/campsites', campsiteRouter);
+app.use('/promotions', promotionRouter);
+app.use('/partners', partnerRouter);
+
 
 //Rest API endpoints; used to set default properties on response objects
 
