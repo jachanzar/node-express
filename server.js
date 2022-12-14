@@ -12,6 +12,61 @@ info to the screen */
 
 app.use(morgan('dev'));
 
+/* When the server reserves requests with JSON data, this function will 
+handle parsing the JSON data into JS properties so we can use that data 
+in JS */
+app.use(express.json());
+
+//Rest API endpoints; used to set default properties on response objects
+app.all('/campsites', (req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    next(); //passes to next relevant routing method after this one
+});
+
+app.get('/campsites', (req, res) => {
+    res.end('Will send all the campsites to you');
+});
+
+app.post('/campsites', (req, res) => {
+    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
+});
+
+app.put('/campsites', (req, res) => {
+    res.statusCode = 403;
+    res.end('PUT operation not supported on /campsites');
+});
+
+app.delete('/campsites', (req, res) => {
+    res.end('Deleting all campsites');
+});
+
+/*Below we are adding a route parameter; /:campsiteId
+This allows us to store whatever the client sends as a route parameter
+called campsiteId. Now, if we get a get request with a specific website, 
+I want to respond with 'I will send details of this site, 
+with the campsiteId requested...*/
+
+app.get('/campsites/:campsiteId', (req, res) => {
+    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
+});
+
+app.post('/campsites/:campsiteId', (req, res) => {
+    res.statusCode = 403;
+    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+});
+
+app.put('/campsites/:campsiteId', (req, res) => {
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+    res.end(`Will update the campsite: ${req.body.name}
+        with description: ${req.body.description}`);
+});
+
+app.delete('/campsites/:campsiteId', (req, res) => {
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+});
+
+
 /* _ _ is a special varaible in node that refers to the absolute path of the
 current directory its in. This single line is the only line we need for
 express to serve static files*/
@@ -25,8 +80,8 @@ has access to 3 parameters: req, res, function; we are leaving out function here
 app.use((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
-    res.end('<html><body><h1>This is an express server</h1></body></html>')
-})
+    res.end('<html><body><h1>This is an Express Server</h1></body></html>');
+});
 
 //set up app to listen
 app.listen(port, hostname, () => {
